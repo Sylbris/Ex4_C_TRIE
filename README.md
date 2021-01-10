@@ -17,7 +17,7 @@ Trie.c
 
 Copy the repository 
 
-bash```
+```
 make trie
 ```
 
