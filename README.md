@@ -1,3 +1,6 @@
+![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Trie_example.svg/500px-Trie_example.svg.png)
+
+
 # Description
 
 This is an assignment given Ariel university, The purpopse is to read input of words other user.
