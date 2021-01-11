@@ -62,7 +62,7 @@ void print_lexicographic(node_pointer np)
     }
 }
 
-void preorder(struct node *follow, char hold[200], int s)
+void preorder(node_pointer follow, char *hold)
 {
     int i = 0;
     if (follow == NULL)
@@ -72,14 +72,13 @@ void preorder(struct node *follow, char hold[200], int s)
     /* Print the word at the beginning instead of the end */
     if (follow->isWord == TRUE)
     {
-        hold[s] = 0;
-        printf("%s\n", hold);
+        printf("%s %d\n", hold,follow->count);
     }
 
     for (i = 0; i < 26; i++)
     {
-        hold[s] = 'a' + i;
-        preorder(follow->children[i], hold, s + 1);
+        char *strcat(hold,follow->letter);
+        preorder(follow->children[i], strcat);
     }
 }
 
@@ -104,32 +103,30 @@ char *get_word()
 int main()
 {
     node_pointer root = node_constructor();
+    char *str = (char*)malloc(6);
+    int ch;
+    size_t size = 6, len = 0;
 
-    while (1)
-    {
-        char *w;
-        int counter = 0;
-        while (((c = getchar()) != '\0' && c != ' ' && c != '\t' && c != '\n' && c != '\r') && c != EOF)
-        {
-            w[counter++] = c;
-            if (counter == size)
-            {
-                w = realloc(w, sizeof(*w) * (size += 16));
-                if (!w)
-                    return w;
-            }
+    while ((ch=getchar()) != EOF) {
+        str[len++] = ch;
+
+        if(len==size){
+            size=size*2 ;
+            str = realloc(str, sizeof(char)*size);       
         }
 
-        insert_word(root, w);
-
-        if (w[counter] == EOF)
+        if(ch==' ')
         {
-            free(w);
-            break;
+            insert_word(root,str);
+            free(str);
+            str = malloc(str, sizeof(char)*size);
         }
 
-        free(w);
     }
-    char hold[200];
-    preorder(root, hold, 0);
+    preorder(root);
+
+
+    return 0;
+   
+    
 }
