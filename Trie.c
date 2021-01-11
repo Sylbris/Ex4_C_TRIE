@@ -70,7 +70,11 @@ void print_lexicographic(node_pointer np,char str[],int level)
     }
 }
 
+<<<<<<< HEAD
 /*void preorder(node_pointer follow, char *hold)
+=======
+void preorder(node_pointer follow, char *hold)
+>>>>>>> 7549a2d56410f70e84b4d62dfcd81cecba68b3ee
 {
     int i = 0;
     if (follow == NULL)
@@ -80,11 +84,16 @@ void print_lexicographic(node_pointer np,char str[],int level)
    
     if (follow->isWord == TRUE)
     {
+<<<<<<< HEAD
         printf("%s %ld\n", hold,follow->count);
+=======
+        printf("%s %ld\n", hold, follow->count);
+>>>>>>> 7549a2d56410f70e84b4d62dfcd81cecba68b3ee
     }
 
     for (i = 0; i < 26; i++)
     {
+<<<<<<< HEAD
         char *strcat(hold,follow->letter);
         preorder(follow->children[i], strcat);
     }
@@ -106,12 +115,18 @@ char *get_word()
             if (!w)
                 return w;
         }
+=======
+        const char ot = 'a' + i;
+        strcat(hold, (char)('a' + i));
+        preorder(follow->children[i], hold);
+>>>>>>> 7549a2d56410f70e84b4d62dfcd81cecba68b3ee
     }
 }
 */
 int main()
 {
     node_pointer root = node_constructor();
+<<<<<<< HEAD
     //char keys[][10]={"the","the", "a", "there", "answer", "any","by","bye","any" ,"their"};
 	
     char *words=(char*)malloc(sizeof(char));
@@ -169,3 +184,39 @@ int main()
    
     
 }
+=======
+    char *str = (char *)malloc(6);
+    int ch;
+    size_t size = 6, len = 0;
+
+    while ((ch = getchar()) != EOF)
+    {
+        if (!(ch >= 97 && ch <= 122) || (ch >= 65 && ch <= 90))
+        {
+            insert_word(root, str);
+            free(str);
+            str = malloc(sizeof(char) * size);
+        }
+
+        else
+        {
+            if ((ch >= 65 && ch <= 90))
+            {
+                ch = ch + 32;
+            }
+            str[len++] = ch;
+        }
+
+        if (len == size)
+        {
+            size = size * 2;
+            str = realloc(str, sizeof(char) * size);
+        }
+    }
+    
+    char *hold = malloc(sizeof(char) * size);
+    preorder(root, hold);
+
+    return 0;
+}
+>>>>>>> 7549a2d56410f70e84b4d62dfcd81cecba68b3ee
