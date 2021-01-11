@@ -3,6 +3,7 @@
 #include <string.h>
 #define NUM_LETTERS ((int)26)
 
+
 typedef enum
 {
     FALSE = 0,
@@ -35,7 +36,6 @@ node_pointer node_constructor(void)
 void insert_word(node_pointer np, char *str)
 {
     int index;
-
     node_pointer current_node = np;
 
     for (int i = 0; i < strlen(str); i++)
@@ -54,35 +54,43 @@ void insert_word(node_pointer np, char *str)
     current_node->count += 1;
 }
 
-void print_lexicographic(node_pointer np)
+void print_lexicographic(node_pointer np,char str[],int level)
 {
-    if (np == NULL)
+    if (np->isWord==TRUE)
     {
-        return;
+        str[level]='\0';
+        printf("%s %ld\n", str,np->count);
+        
+    }
+    for(int i=0;i<NUM_LETTERS;i++){
+    if(np->children[i]){
+    str[level]=i+'a';
+    print_lexicographic(np->children[i],str,level+1);
+    }
     }
 }
 
-void preorder(struct node *follow, char hold[200], int s)
+/*void preorder(node_pointer follow, char *hold)
 {
     int i = 0;
     if (follow == NULL)
     {
         return;
     }
-    /* Print the word at the beginning instead of the end */
+   
     if (follow->isWord == TRUE)
     {
-        hold[s] = 0;
-        printf("%s\n", hold);
+        printf("%s %ld\n", hold,follow->count);
     }
 
     for (i = 0; i < 26; i++)
     {
-        hold[s] = 'a' + i;
-        preorder(follow->children[i], hold, s + 1);
+        char *strcat(hold,follow->letter);
+        preorder(follow->children[i], strcat);
     }
 }
-
+*/
+/*
 char *get_word()
 {
     size_t size = 0;
@@ -100,36 +108,64 @@ char *get_word()
         }
     }
 }
-
+*/
 int main()
 {
     node_pointer root = node_constructor();
-
-    while (1)
-    {
-        char *w;
-        int counter = 0;
-        while (((c = getchar()) != '\0' && c != ' ' && c != '\t' && c != '\n' && c != '\r') && c != EOF)
-        {
-            w[counter++] = c;
-            if (counter == size)
-            {
-                w = realloc(w, sizeof(*w) * (size += 16));
-                if (!w)
-                    return w;
-            }
-        }
-
-        insert_word(root, w);
-
-        if (w[counter] == EOF)
-        {
-            free(w);
-            break;
-        }
-
-        free(w);
+    //char keys[][10]={"the","the", "a", "there", "answer", "any","by","bye","any" ,"their"};
+	
+    char *words=(char*)malloc(sizeof(char));
+    char c;
+    int length_of_word=0;
+    
+    while((c=getchar())!=EOF){
+    
+    	words[length_of_word++]=c;
+    	words=realloc(words,sizeof(char)*(length_of_word));
+    	
+	if(c== '\0' || c != ' ' || c != '\t' || c != '\n' || c != '\r'){
+		insert_word(root,words);
+	}
     }
-    char hold[200];
-    preorder(root, hold, 0);
+    
+    int level=0;
+    char str[20];
+    print_lexicographic(root,words,level);
+    
+    /*
+    for(int j=0;j<(sizeof(keys)/sizeof(keys[0]));j++){
+    insert_word(root,keys[j]);
+    }
+    int level=0;
+    char str[20];
+    print_lexicographic(root,str,level);
+    
+    /*
+    char *str = (char*)malloc(6);
+    int ch;
+    size_t size = 6, len = 0;
+
+    while ((ch=getchar()) != EOF) {
+        str[len++] = ch;
+
+        if(len==size){
+            size=size*2 ;
+            str = realloc(str, sizeof(char)*size);       
+        }
+
+        if(ch==' ')
+        {
+            insert_word(root,str);
+            free(str);
+            str = malloc(str, sizeof(char)*size);
+        }
+
+    }
+    print_lexicographic(root);
+    */
+
+
+    return 0;
+   
+    
 }

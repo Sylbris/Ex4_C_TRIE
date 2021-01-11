@@ -4,8 +4,8 @@ CFLAGS= -Wall -g
 
 all: trie
 
-trie: trie.c 
-	$(CC) $(CFLAGS) -o trie trie.c
+trie: Trie.c 
+	$(CC) $(CFLAGS) -o trie Trie.c
 
 .PHONY: clean 
 	
