@@ -156,12 +156,12 @@ int main( int argc, char *argv[])
     int level = 0;
     char *str = (char *)malloc(sizeof(max));
     if(argc == 1){
-    print_lexicographic(root, words, level);
+    print_lexicographic(root, str, level);
     }
     if(argc == 2 && *argv[1] == 'r'){
-    print_lexicographic_reverse(root, words, level);
+    print_lexicographic_reverse(root, str, level);
     }
-
+    free(str);
     clean(root);
     
     return 0;
