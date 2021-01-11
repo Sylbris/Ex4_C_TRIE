@@ -97,6 +97,14 @@ void foo(char *arr, size_t size)
         arr[k] = '\0';
 }
 
+void clean(node_pointer root){
+    for(int i=0;i<NUM_LETTERS;i++){
+        if(root->children[i]){
+            clean(root->children[i]);
+        }
+    }
+    free(root);
+}
 int main( int argc, char *argv[])
 {
     
@@ -154,5 +162,7 @@ int main( int argc, char *argv[])
     print_lexicographic_reverse(root, words, level);
     }
 
+    clean(root);
+    
     return 0;
 }
