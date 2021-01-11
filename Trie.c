@@ -72,61 +72,51 @@ void preorder(node_pointer follow, char *hold)
     /* Print the word at the beginning instead of the end */
     if (follow->isWord == TRUE)
     {
-        printf("%s %d\n", hold,follow->count);
+        printf("%s %ld\n", hold, follow->count);
     }
 
     for (i = 0; i < 26; i++)
     {
-        char *strcat(hold,follow->letter);
-        preorder(follow->children[i], strcat);
-    }
-}
-
-char *get_word()
-{
-    size_t size = 0;
-    char c;
-    char *w;
-    int counter = 0;
-    while (((c = getchar()) != '\0' && c != ' ' && c != '\t' && c != '\n' && c != '\r') && c != EOF)
-    {
-        w[counter++] = c;
-        if (counter == size)
-        {
-            w = realloc(w, sizeof(*w) * (size += 16));
-            if (!w)
-                return w;
-        }
+        const char ot = 'a' + i;
+        strcat(hold, (char)('a' + i));
+        preorder(follow->children[i], hold);
     }
 }
 
 int main()
 {
     node_pointer root = node_constructor();
-    char *str = (char*)malloc(6);
+    char *str = (char *)malloc(6);
     int ch;
     size_t size = 6, len = 0;
 
-    while ((ch=getchar()) != EOF) {
-        str[len++] = ch;
-
-        if(len==size){
-            size=size*2 ;
-            str = realloc(str, sizeof(char)*size);       
-        }
-
-        if(ch==' ')
+    while ((ch = getchar()) != EOF)
+    {
+        if (!(ch >= 97 && ch <= 122) || (ch >= 65 && ch <= 90))
         {
-            insert_word(root,str);
+            insert_word(root, str);
             free(str);
-            str = malloc(str, sizeof(char)*size);
+            str = malloc(sizeof(char) * size);
         }
 
-    }
-    preorder(root);
+        else
+        {
+            if ((ch >= 65 && ch <= 90))
+            {
+                ch = ch + 32;
+            }
+            str[len++] = ch;
+        }
 
+        if (len == size)
+        {
+            size = size * 2;
+            str = realloc(str, sizeof(char) * size);
+        }
+    }
+    
+    char *hold = malloc(sizeof(char) * size);
+    preorder(root, hold);
 
     return 0;
-   
-    
 }
