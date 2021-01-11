@@ -158,7 +158,7 @@ int main( int argc, char *argv[])
     if(argc == 1){
     print_lexicographic(root, words, level);
     }
-    if(argc == 2 && argv[1] == 'r'){
+    if(argc == 2 && *argv[1] == 'r'){
     print_lexicographic_reverse(root, words, level);
     }
 
