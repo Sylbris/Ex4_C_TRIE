@@ -69,51 +69,90 @@ void print_lexicographic(node_pointer np, char str[], int level)
         }
     }
 }
+void print_lexicographic_reverse(node_pointer np, char str[], int level)
+{
+    if (np == NULL)
+    {
+        return;
+    }
 
-void foo(char * arr, size_t size) {
-    for (int k = 0; k < size; k++) 
+    for (int i = NUM_LETTERS - 1; i > -1; i--)
+    {
+        if (np->children[i])
+        {
+            str[level] = i + 'a';
+            print_lexicographic_reverse(np->children[i], str, level + 1);
+        }
+    }
+    if (np->isWord == TRUE)
+    {
+        str[level] = '\0';
+        printf("%s %ld\n", str, np->count);
+    }
+}
+
+void foo(char *arr, size_t size)
+{
+    for (int k = 0; k < size; k++)
         arr[k] = '\0';
 }
 
-int main()
+int main( int argc, char *argv[])
 {
+    
     node_pointer root = node_constructor();
-    //char keys[][10]={"the","the", "a", "there", "answer", "any","by","bye","any" ,"their"};
-
     char *words = (char *)malloc(sizeof(char));
+    if (!words)
+            {
+                printf("not enough memory to allocate");
+                return 0;
+            }
+
     char c;
     int length_of_word = 0;
-
+    int max = 0;
     while ((c = getchar()) != EOF)
-        {
-        //printf("%c \n", c);
-        //printf("%d \n",length_of_word);
+    {
         if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90))
         {
-            // {
-            // }
             if ((c >= 65 && c <= 90))
             {
                 c = c + 32;
             }
             words[length_of_word++] = c;
-            printf("%s \n", words);
             words = realloc(words, sizeof(char) * (length_of_word));
+            if (!words)
+            {
+                printf("not enough memory to allocate");
+                return 0;
+            }
         }
 
         if (c == '\0' || c == ' ' || c == '\t' || c == '\n' || c == '\r')
         {
             insert_word(root, words);
-            foo(words,length_of_word);
-            //strcpy(words,"");
+            if (max < length_of_word){
+                max = length_of_word;
+            }
+            foo(words, length_of_word);
+
             length_of_word = 0;
         }
     }
-    insert_word(root, words);
+    if (length_of_word != 0)
+    {
+        insert_word(root, words);
+    }
     free(words);
+
     int level = 0;
-    char str[200];
+    char *str = (char *)malloc(sizeof(max));
+    if(argc == 1){
     print_lexicographic(root, words, level);
+    }
+    if(argc == 2 && argv[1] == 'r'){
+    print_lexicographic_reverse(root, words, level);
+    }
 
     return 0;
 }

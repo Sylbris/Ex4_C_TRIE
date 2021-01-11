@@ -2,12 +2,14 @@
 CC=gcc
 CFLAGS= -Wall -g
 
-all: trie
+all: frequency
 
-trie: Trie.c 
-	$(CC) $(CFLAGS) -o trie Trie.c
+frequency: Trie.c 
+	$(CC) $(CFLAGS) -o frequency Trie.c
+
+
 
 .PHONY: clean 
 	
 clean:              #clean all .o files.
-	rm -f mains *.o *.a trie
+	rm -f mains *.o *.a frequency
