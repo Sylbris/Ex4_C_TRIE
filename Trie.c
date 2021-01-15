@@ -136,7 +136,7 @@ int main( int argc, char *argv[])
             }
         }
 
-        if (c == '\0' || c == ' ' || c == '\t' || c == '\n' || c == '\r')
+        if ((c == '\0' || c == ' ' || c == '\t' || c == '\n' || c == '\r') && length_of_word != 0)
         {
             insert_word(root, words);
             if (max < length_of_word){
